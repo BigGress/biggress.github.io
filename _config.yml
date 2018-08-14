@@ -69,5 +69,7 @@ theme: landscape
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repository: git@github.com:BigGress/biggress.github.io.git
+  repo: git@github.com:BigGress/biggress.github.io.git
   branch: master
+  name: biggress
+  email: 451148156@qq.com
