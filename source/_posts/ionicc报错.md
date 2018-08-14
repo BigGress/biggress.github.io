@@ -18,6 +18,6 @@ tags:
 ``` bash
 <allow-navigation href="http://example.com/*"/>
 <content src="http://www.example.com/"/>
-
+  
 ```
 
