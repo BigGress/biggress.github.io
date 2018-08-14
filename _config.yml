@@ -71,5 +71,9 @@ deploy:
   type: git
   repo: git@github.com:BigGress/biggress.github.io.git
   branch: master
+  message: update blog
   name: biggress
   email: 451148156@qq.com
+  extend_dirs: 
+  ignore_hidden: false # default is true
+  ignore_pattern: regexp  # whatever file that matches the regexp will be ignored when deploying
