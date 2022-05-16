@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smallgress.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="关于ui-router下$on状态的总结使用$on状态之前…我们要先明白这些状态的作用是什么…在angular启动路由的时候…会触发路由的几个事件…如路由开始解析、路由解析成功等等的状态。我们可以根据不同的状态执行不同的回调函数…处理不同的事件。 一、在明白$on的作用后…我们还要明白怎么触发这些状态…* 1、$rootScope下触发     1$rootScope.$on(&quot;$sta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ui-router的$on状态">
+<meta property="og:url" content="http://smallgress.github.io/2016/01/25/ui-router%E7%9A%84-on%E7%8A%B6%E6%80%81/index.html">
+<meta property="og:site_name" content="一片野草">
+<meta property="og:description" content="关于ui-router下$on状态的总结使用$on状态之前…我们要先明白这些状态的作用是什么…在angular启动路由的时候…会触发路由的几个事件…如路由开始解析、路由解析成功等等的状态。我们可以根据不同的状态执行不同的回调函数…处理不同的事件。 一、在明白$on的作用后…我们还要明白怎么触发这些状态…* 1、$rootScope下触发     1$rootScope.$on(&quot;$sta">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-01-25T14:51:11.000Z">
+<meta property="article:modified_time" content="2016-01-25T14:51:30.000Z">
+<meta property="article:author" content="SmallGress">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://smallgress.github.io/2016/01/25/ui-router%E7%9A%84-on%E7%8A%B6%E6%80%81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ui-router的$on状态 | 一片野草</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">一片野草</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录自己的学习路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://smallgress.github.io/2016/01/25/ui-router%E7%9A%84-on%E7%8A%B6%E6%80%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="SmallGress">
+      <meta itemprop="description" content="记录学习js的历程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一片野草">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ui-router的$on状态
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2016-01-25 22:51:11 / 修改时间：22:51:30" itemprop="dateCreated datePublished" datetime="2016-01-25T22:51:11+08:00">2016-01-25</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="关于ui-router下-on状态的总结"><a href="#关于ui-router下-on状态的总结" class="headerlink" title="关于ui-router下$on状态的总结"></a>关于ui-router下$on状态的总结</h1><p>使用$on状态之前…我们要先明白这些状态的作用是什么…在angular启动路由的时候…会触发路由的几个事件…如路由开始解析、路由解析成功等等的状态。我们可以根据不同的状态执行不同的回调函数…处理不同的事件。</p>
+<h3 id="一、在明白-on的作用后…我们还要明白怎么触发这些状态…"><a href="#一、在明白-on的作用后…我们还要明白怎么触发这些状态…" class="headerlink" title="一、在明白$on的作用后…我们还要明白怎么触发这些状态…"></a>一、在明白$on的作用后…我们还要明白怎么触发这些状态…</h3><pre><code>* 1、$rootScope下触发
+    <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$rootScope</span>.<span class="variable">$on</span>(<span class="string">&quot;<span class="variable">$stateChangeStart</span>&quot;</span>,<span class="keyword">function</span>(event, toState, toParams, fromState, fromParams)&#123; ... &#125;);</span><br></pre></td></tr></table></figure>
+    在$rootScope下触发$on...正如$rootScope的作用一样...它会在所有的控制器中启用这个回调函数。
+
+* 2、$scope 下触发
+    <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$scope</span>.<span class="variable">$on</span>(<span class="string">&quot;<span class="variable">$stateChangeStart</span>&quot;</span>,<span class="keyword">function</span>(event, toState, toParams, fromState, fromParams)&#123; ... &#125;)</span><br></pre></td></tr></table></figure>
+    在$scope下触发$on...它只会在当前的控制器中启用这个回调函数。
+</code></pre>
+<h3 id="二、所有-on的状态"><a href="#二、所有-on的状态" class="headerlink" title="二、所有$on的状态"></a>二、所有$on的状态</h3><pre><code>| 状态    | 中文    |
+| ------- | :----:  |
+| $stateChangeStart |  当模板开始解析之前触发|
+| $stateNotFound | 当模板没有被找到 |
+| $stateChangeSuccess | 当模板解析完成后触发 |
+| $stateChangeError | 当模板解析过程中发生错误时触发 |
+| $viewContentLoading | 当视图开始加载 |
+| $viewContentLoaded | 当视图加载完成 |
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/01/25/ui-router/" rel="prev" title="ui-router">
+      <i class="fa fa-chevron-left"></i> ui-router
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/01/25/ionicc%E6%8A%A5%E9%94%99/" rel="next" title="ionic报错">
+      ionic报错 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Eui-router%E4%B8%8B-on%E7%8A%B6%E6%80%81%E7%9A%84%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">关于ui-router下$on状态的总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%9C%A8%E6%98%8E%E7%99%BD-on%E7%9A%84%E4%BD%9C%E7%94%A8%E5%90%8E%E2%80%A6%E6%88%91%E4%BB%AC%E8%BF%98%E8%A6%81%E6%98%8E%E7%99%BD%E6%80%8E%E4%B9%88%E8%A7%A6%E5%8F%91%E8%BF%99%E4%BA%9B%E7%8A%B6%E6%80%81%E2%80%A6"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、在明白$on的作用后…我们还要明白怎么触发这些状态…</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%89%80%E6%9C%89-on%E7%9A%84%E7%8A%B6%E6%80%81"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、所有$on的状态</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">SmallGress</p>
+  <div class="site-description" itemprop="description">记录学习js的历程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SmallGress</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

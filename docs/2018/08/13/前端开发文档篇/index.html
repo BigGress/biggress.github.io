@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smallgress.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="为什么需要开发文之所以, 花时间写开发文档主要是希望下一个接手的人, 可以通过阅读文档快速知道项目的进度。特别是对于一些大型的项目, 如果只是靠人之间口口相传, 容易导致项目交接的遗漏和一些bug永远的存在。 前端文档内容根据, 现在前端的发展情况, 我大概整理下, 前端开发文档中应该包含的内容。 前端文档目录:  摘要 背景 目标 里程碑 关键技术 开发流程 组件 页面说明 讨论(TODO)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端开发文档篇">
+<meta property="og:url" content="http://smallgress.github.io/2018/08/13/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3%E7%AF%87/index.html">
+<meta property="og:site_name" content="一片野草">
+<meta property="og:description" content="为什么需要开发文之所以, 花时间写开发文档主要是希望下一个接手的人, 可以通过阅读文档快速知道项目的进度。特别是对于一些大型的项目, 如果只是靠人之间口口相传, 容易导致项目交接的遗漏和一些bug永远的存在。 前端文档内容根据, 现在前端的发展情况, 我大概整理下, 前端开发文档中应该包含的内容。 前端文档目录:  摘要 背景 目标 里程碑 关键技术 开发流程 组件 页面说明 讨论(TODO)">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-08-13T05:23:16.000Z">
+<meta property="article:modified_time" content="2020-06-20T03:10:07.563Z">
+<meta property="article:author" content="SmallGress">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://smallgress.github.io/2018/08/13/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3%E7%AF%87/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>前端开发文档篇 | 一片野草</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">一片野草</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录自己的学习路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://smallgress.github.io/2018/08/13/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="SmallGress">
+      <meta itemprop="description" content="记录学习js的历程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一片野草">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端开发文档篇
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-08-13 13:23:16" itemprop="dateCreated datePublished" datetime="2018-08-13T13:23:16+08:00">2018-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-20 11:10:07" itemprop="dateModified" datetime="2020-06-20T11:10:07+08:00">2020-06-20</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="为什么需要开发文"><a href="#为什么需要开发文" class="headerlink" title="为什么需要开发文"></a>为什么需要开发文</h2><p>之所以, 花时间写开发文档主要是希望下一个接手的人, 可以通过阅读文档快速知道项目的进度。特别是对于一些大型的项目, 如果只是靠人之间口口相传, 容易导致项目交接的遗漏和一些bug永远的存在。</p>
+<h2 id="前端文档内容"><a href="#前端文档内容" class="headerlink" title="前端文档内容"></a>前端文档内容</h2><p>根据, 现在前端的发展情况, 我大概整理下, 前端开发文档中应该包含的内容。</p>
+<p><strong>前端文档目录:</strong></p>
+<ol>
+<li>摘要</li>
+<li>背景</li>
+<li>目标</li>
+<li>里程碑</li>
+<li>关键技术</li>
+<li>开发流程</li>
+<li>组件</li>
+<li>页面说明</li>
+<li>讨论(TODO)</li>
+</ol>
+<h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>摘要可以帮助公司的每位工程师理解文档的内容，并决定是否需要继续阅读文档的剩余部分。摘要最多可以包含 3 段内容。</p>
+<h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>描述要解决什么问题、为什么需要这个项目、人们需要哪些知识才可以评估这个项目，以及它与技术战略、产品战略或团队的季度目标之间的关系。</p>
+<h4 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h4><p>目标部分应该包括：</p>
+<ol>
+<li>描述项目对用户的影响——你的用户可能是另一个工程团队或另一个系统。</li>
+<li>指定如何使用指标来度量项目的成功——如果可以链接到指标仪表盘那就更好了。</li>
+</ol>
+<h4 id="里程碑"><a href="#里程碑" class="headerlink" title="里程碑"></a>里程碑</h4><p>一系列可衡量的检查点，你的 PM 和上司可以借助它们大致了解项目的每个部分将在什么时间完成。如果项目时间超过 1 个月，我建议你将项目分解为面向用户的里程碑。<br>在设定里程碑时可以使用日历日期，把延期、假期、会议等因素都考虑进去。例如：</p>
+<p>开始日期：2018 年 6 月 7 日</p>
+<p>里程碑 1——以暗模式运行新系统 MVP：2018 年 6 月 28 日</p>
+<p>里程碑 2——弃用旧系统：2018 年 7 月 4 日</p>
+<p>结束日期：在新系统中添加新特性 X、Y、Z：2018 年 7 月 14 日</p>
+<p>如果其中一些里程碑的 ETA 发生变化，需要在此处添加 [更新]，相关人员可以很容易看到更新的内容。</p>
+<h4 id="关键技术"><a href="#关键技术" class="headerlink" title="关键技术"></a>关键技术</h4><p>关键技术主要应该说明如果要开发这个项目, 需要了解的技术, 以及这些技术在项目中的使用情况, 和对于一些重要函数和文件的说明, 让人可以对这个项目的主要技术有一定了解。</p>
+<h4 id="开发流程"><a href="#开发流程" class="headerlink" title="开发流程"></a>开发流程</h4><p>在了解完技术后, 开发人员可能就会开始开发, 所以对整个的开发流程, 这里也要说明, 从<code>开发</code>到<code>发布</code>中的<code>注意事项</code>都应该在这里体现出来。</p>
+<h4 id="通用组件和函数"><a href="#通用组件和函数" class="headerlink" title="通用组件和函数"></a>通用组件和函数</h4><p>由于近些年前端组件化、函数式的开发, 导致前端一定会有大量的通用组件和函数, 对于这些内容当完成后应该配有使用说明, 描述其中的属性、方法和示例等内容, 方便后续的人员使用, 如果对于一些未来可能需要扩展的组件, 也要予以说明。</p>
+<h4 id="页面说明"><a href="#页面说明" class="headerlink" title="页面说明"></a>页面说明</h4><p>这部分并不是一定要每个页面都完成, 我个人认为只要对那些相对复杂的页面给予说明即可。</p>
+<p>我认为要说明的内容有, 整个页面的开发思路、TODO等之类的内容, 一方面可以方便别人, 理解开发思路和未来的开发目标。</p>
+<h4 id="讨论-TODO"><a href="#讨论-TODO" class="headerlink" title="讨论(TODO)"></a>讨论(TODO)</h4><p>在项目开发过程中, 必然存在一些有争议的内容, 对于这些个内容我觉得可以适当记录下来, 主要方便后期的回忆。但是不要什么都写, 主要应该是些重要的争议需求才记录。</p>
+<h4 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h4><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/FUZQRIRJE8IKbknrdBhLkw">如何才能写出好的软件设计文档？这里有一套方法论</a><br><a target="_blank" rel="noopener" href="https://www.wikihow.com/Write-Software-Documentation#">How to Write Software Documentation</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/05/06/js%E5%92%8Cts%E4%B8%AD%E7%9A%84decorator/" rel="prev" title="js和ts中的decorator">
+      <i class="fa fa-chevron-left"></i> js和ts中的decorator
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/12/mkcert%E5%92%8Cbrowser-sync%E6%90%AD%E5%BB%BAhttps/" rel="next" title="mkcert和browser-sync搭建https">
+      mkcert和browser-sync搭建https <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%BC%80%E5%8F%91%E6%96%87"><span class="nav-number">1.</span> <span class="nav-text">为什么需要开发文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E6%96%87%E6%A1%A3%E5%86%85%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">前端文档内容</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">2.0.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">2.0.2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87"><span class="nav-number">2.0.3.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8C%E7%A8%8B%E7%A2%91"><span class="nav-number">2.0.4.</span> <span class="nav-text">里程碑</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF"><span class="nav-number">2.0.5.</span> <span class="nav-text">关键技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B"><span class="nav-number">2.0.6.</span> <span class="nav-text">开发流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E7%BB%84%E4%BB%B6%E5%92%8C%E5%87%BD%E6%95%B0"><span class="nav-number">2.0.7.</span> <span class="nav-text">通用组件和函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A1%B5%E9%9D%A2%E8%AF%B4%E6%98%8E"><span class="nav-number">2.0.8.</span> <span class="nav-text">页面说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A8%E8%AE%BA-TODO"><span class="nav-number">2.0.9.</span> <span class="nav-text">讨论(TODO)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-number">2.0.10.</span> <span class="nav-text">参考文章</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">SmallGress</p>
+  <div class="site-description" itemprop="description">记录学习js的历程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SmallGress</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
