@@ -70,7 +70,7 @@ theme: next
 deploy:
   type: git
   repo: git@github.com:BigGress/biggress.github.io.git
-  branch: master
+  branch: gh-pages
   message: update blog
   name: biggress
   email: 451148156@qq.com
